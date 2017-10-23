@@ -1,0 +1,75 @@
+
+CREATE TABLE accounts (
+	ucid                       VARCHAR(10) NOT NULL PRIMARY KEY,
+	type ENUM('STUDENT', 'STAFF', 'ADMIN') NOT NULL,
+	pass                          CHAR(32) NOT NULL
+);
+
+CREATE TABLE classes (
+	class_id        INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+
+	class_year SMALLINT NOT NULL,
+	class_sem  SMALLINT NOT NULL,
+	teacher    CHAR(10) NOT NULL,
+	department  CHAR(2) NOT NULL,
+	level       TINYINT NOT NULL,
+	section     TINYINT NOT NULL
+);
+
+CREATE TABLE enrollments (
+	enrollment_id                   INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	class_id                        INT NOT NULL,
+	ucid                    VARCHAR(10) NOT NULL,
+	role          ENUM('TAKE', 'TEACH') NOT NULL
+);
+
+CREATE TABLE assignments (
+	class_id          INT NOT NULL,
+	name     VARCHAR( 60) NOT NULL,
+	about    VARCHAR(256) NOT NULL,
+	due          DATETIME NOT NULL
+);
+
+/* Add test accounts. Username and passwords are the same. */
+INSERT INTO accounts (ucid, type, pass) VALUES (
+	'jk369',
+	'STUDENT',
+	'32e6d23006cb01e1820e201bb3d1c65c'
+);
+
+INSERT INTO accounts (ucid, type, pass) VALUES (
+	'admin',
+	'ADMIN',
+	'21232f297a57a5a743894a0e4a801fc3'
+);
+
+INSERT INTO accounts (ucid, type, pass) VALUES (
+	'teacher',
+	'STAFF',
+	'8d788385431273d11e8b43bb78f3aa41'
+);
+
+/* Add a test class */
+
+INSERT INTO classes (class_year, class_sem, teacher, department, level, section) VALUES (
+	2016,
+	2,
+	'teacher',
+	'CS',
+	100,
+	001
+);
+
+/* Enroll students/teachers in classes */
+
+INSERT INTO enrollments (class_id, ucid, role) VALUES (1,   'jk369',  'TAKE');
+INSERT INTO enrollments (class_id, ucid, role) VALUES (1, 'teacher', 'TEACH');
+
+/* Add Assignments */
+
+INSERT INTO assignments (class_id, name, about, due) VALUES (
+	1,
+	'Code or Something',
+	'Figrue it out! Check wikipedia or something',
+	'2016-02-01 00:00:00'
+);
